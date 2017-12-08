@@ -1,0 +1,44 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+
+#container{
+    width: 600px;
+    display: table;
+    margin: 0 auto;
+    padding: 10px;
+    border: 2px solid black;
+}
+
+h1{
+    color: green;
+    border-bottom: 2px solid black;
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.error{
+    color: red;
+}
+
+.form{
+    margin: 20px;
+    width: 300px;
+    text-align: right;
+}
+
+input[type=text]{
+    margin-bottom: 8px;
+}
+
+.btn{
+    display: inline-block;
+    margin-top: 30px;
+    background-color: #d1d1d1;
+    padding: 4px;
+}
+
+label{
+    text-align: right;
+}

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Welcome</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style_wall.css') }}">
+</head>
+<body>
+    <div id="container">
+        <div id="header">
+            <h1>CodingDojo Wall</h1>
+            <ul>
+                <li id="name">Welcome {{session['first_name']}}!</li>
+                <li><a href="/logout">LOG OUT</a></li>
+            </ul>
+        </div><!-- end of header div -->
+        <div id="content">
+            <p>Post a message</p>
+            <form action="/post_message", method="POST">
+                <textarea name="message" id="text" cols="130" rows="10"></textarea>
+                <input type="submit" id="post_mess" value="Post a Message">
+            </form>
+            {% with messages = get_flashed_messages(with_categories=True) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <p class="error">{{message}}</p>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            {% for message in messages %}
+                <div id="show_messages">
+                    <h4>{{message['first_name']}} {{message['last_name']}} - {{message['created_at'].strftime("%B %d %Y")}}</h4>
+                    <p class="indent">{{message['message']}}</p>
+                    <br>
+                    <div id="show_comments">
+                        {% for comment in comments %}
+                            {% if comment['message_id'] == message['id'] %}
+                                <h4>{{comment['first_name']}} {{comment['last_name']}} - {{comment['created_at'].strftime("%B %d %Y")}}</h4>
+                                {% if comment['user_id'] == session['user_id'] %}
+                                <form action="/delete/{{comment['comment_id']}}" method="post">
+                                    <input id="delete_comm" type="submit", value="Delete">
+                                </form>
+                            {% endif %}
+                                <p>{{comment['comment']}}</p><br>  
+                            {% endif %}
+                        {% endfor %}
+                    </div><!-- end of show_comments -->
+                    <form action="/post_comment/{{message['id']}}", method="POST">
+                        <textarea name="comment" id="comm" cols="127" rows="5"></textarea>
+                        <input type="submit" id="post_comm" value="Post a Comment">
+                    </form>
+                </div><!-- end of show_messages -->
+            {% endfor %}
+        </div><!-- end of content div -->
+    </div><!-- end of container div -->
+</body>
+</html>
